@@ -1,0 +1,12 @@
+<div *ngIf="isAuthenticated; else loginBlock">
+  <app-nav-bar></app-nav-bar>
+</div>
+
+<ng-template #loginBlock>
+  <div class="padding">
+    <app-login></app-login>
+  </div>
+</ng-template>
+
+<!-- <app-footer></app-footer> -->
+

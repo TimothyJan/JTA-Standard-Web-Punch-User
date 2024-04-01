@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'JTA-Standard-Web-Punch-User'`, () => {
+  it(`should have as title 'JTA-SQL-Web-Punch-User'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('JTA-Standard-Web-Punch-User');
+    expect(app.title).toEqual('JTA-SQL-Web-Punch-User');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, JTA-Standard-Web-Punch-User');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, JTA-SQL-Web-Punch-User');
   });
 });

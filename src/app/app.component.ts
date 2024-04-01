@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'JTA-Standard-Web-Punch-User';
+  title = 'JTA-SQL-Web-Punch-User';
 }
