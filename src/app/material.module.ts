@@ -15,6 +15,8 @@ import {MatIconModule} from '@angular/material/icon';
 
 import {MatDialogModule} from '@angular/material/dialog';
 
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 const modules = [
   MatSlideToggleModule,
   MatCardModule,
@@ -26,7 +28,8 @@ const modules = [
   MatSidenavModule,
   MatListModule,
   MatIconModule,
-  MatDialogModule
+  MatDialogModule,
+  MatProgressSpinnerModule
 ];
 
 @NgModule({

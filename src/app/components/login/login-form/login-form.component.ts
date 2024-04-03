@@ -10,6 +10,7 @@ import { EmployeeStatus } from '../../../models/employee-status';
   styleUrl: './login-form.component.css'
 })
 export class LoginFormComponent implements OnInit {
+  dataFetched: boolean = false;
   logintype: number = 0;
   loginForm = new FormGroup({
     employeeID: new FormControl({value:'', disabled:true}, [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)]),
@@ -24,26 +25,31 @@ export class LoginFormComponent implements OnInit {
 
   ngOnInit(): void {
     // Initialize punchConfiguration in the Jantek Service
-    this._jantekService.getPunchConfiguration();
-    // Get logintype for company preferred login
-    this.logintype = this._jantekService.getLoginType();
-    switch(this.logintype) {
-      case 1: {
-        this.loginForm.controls["employeeID"].enable();
-        this.loginForm.controls["cardNumber"].enable();
-        break;
+    this._jantekService.getPunchConfiguration().subscribe(response => {
+      // Get punch configuration
+      this._jantekService.punchConfiguration = { ...response}
+
+      // Get logintype for company preferred login
+      this.logintype = this._jantekService.getLoginType();
+      switch(this.logintype) {
+        case 1: {
+          this.loginForm.controls["employeeID"].enable();
+          this.loginForm.controls["cardNumber"].enable();
+          break;
+        }
+        case 2: {
+          this.loginForm.controls["employeeID"].enable();
+          this.loginForm.controls["cardNumber"].disable();
+          break;
+        }
+        case 3: {
+          this.loginForm.controls["employeeID"].disable();
+          this.loginForm.controls["cardNumber"].enable();
+          break;
+        }
       }
-      case 2: {
-        this.loginForm.controls["employeeID"].enable();
-        this.loginForm.controls["cardNumber"].disable();
-        break;
-      }
-      case 3: {
-        this.loginForm.controls["employeeID"].disable();
-        this.loginForm.controls["cardNumber"].enable();
-        break;
-      }
-    }
+      this.dataFetched = true;
+    });
   }
 
   /** Gets EmployeeStatus using the Employee ID and assigns if valid login*/

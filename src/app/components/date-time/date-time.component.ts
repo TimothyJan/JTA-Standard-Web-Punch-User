@@ -7,6 +7,7 @@ import { JantekService } from '../../services/jantek.service';
   styleUrl: './date-time.component.css'
 })
 export class DateTimeComponent implements OnInit{
+  dataFetched: boolean = false;
   currentDateTime = new Date();
   timeFormat: string = "";
   dateFormat: string = "";
@@ -17,11 +18,15 @@ export class DateTimeComponent implements OnInit{
 
   ngOnInit(): void {
     /** Needed to get the company info including timeformat and dateformat */
-    this._jantekService.getCompanyInfo();
+    this._jantekService.getCompanyInfo().subscribe(response => {
+      // Get Company Info
+      this._jantekService.companyInfo = { ...response}
 
+      this.timeFormat = this.timeFormatDisplay(this._jantekService.getTimeFormat());
+      this.dateFormat = this._jantekService.dateFormatDisplay(this._jantekService.getDateFormat());
+      this.dataFetched = true;
+    });
     this.currentDateTimeUpdate();
-    this.timeFormat = this.timeFormatDisplay(this._jantekService.getTimeFormat());
-    this.dateFormat = this._jantekService.dateFormatDisplay(this._jantekService.getDateFormat());
   }
 
   /** Updates currentDateTime every 1 sec */

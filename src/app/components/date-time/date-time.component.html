@@ -1,4 +1,11 @@
-<div class="dateTime">
-  <h1>{{ currentDateTime | date:timeFormat }}</h1>
-  <h3>{{ currentDateTime | date:dateFormat }}</h3>
+
+<div *ngIf="dataFetched; else loadingBlock">
+  <div class="dateTime">
+    <h1>{{ currentDateTime | date:timeFormat }}</h1>
+    <h3>{{ currentDateTime | date:dateFormat }}</h3>
+  </div>
 </div>
+
+<ng-template #loadingBlock>
+  <app-loading-spinner [isLoading]="!dataFetched"></app-loading-spinner>
+</ng-template>
