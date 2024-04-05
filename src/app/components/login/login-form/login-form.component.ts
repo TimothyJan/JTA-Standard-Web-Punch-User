@@ -57,6 +57,7 @@ export class LoginFormComponent implements OnInit {
     return new Promise<EmployeeStatus>((resolve, reject) => {
       this._jantekService.getEmployeeIDStatus(+employeeID).subscribe(
         data => {
+          // console.log(data);
           if (data["found"] > 0) {
             this.isValidLogin();
             resolve(data);
@@ -78,6 +79,7 @@ export class LoginFormComponent implements OnInit {
     return new Promise<EmployeeStatus>((resolve, reject) => {
       this._jantekService.getCardNumberStatus(+cardNumber).subscribe(
         data => {
+          // console.log(data);
           if (data["found"] > 0) {
             this.isValidLogin();
             resolve(data);

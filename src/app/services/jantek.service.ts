@@ -9,7 +9,9 @@ import { CodeList } from '../models/code-list';
 import { CodeStatus, L3CodeStatus } from '../models/code-status';
 import { EmployeeStatus } from '../models/employee-status';
 
+/** LAN server janteksvr04 */
 // const APIROOT = "http://201.12.20.40/timothy_jan/webpunch";
+/** Internet server janteksvr00 */
 const APIROOT = "http://newdev.jantek.net/webpunch/api";
 const COMPANYNAME = "TIMOTHYJANPROJECT";
 
