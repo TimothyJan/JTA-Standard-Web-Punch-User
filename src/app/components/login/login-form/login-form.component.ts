@@ -55,7 +55,7 @@ export class LoginFormComponent implements OnInit {
   /** Gets EmployeeStatus using the Employee ID and assigns if valid login*/
   async getEmployeeIDStatus(employeeID: any): Promise<EmployeeStatus> {
     return new Promise<EmployeeStatus>((resolve, reject) => {
-      this._jantekService.getEmployeeIDStatus(+employeeID).subscribe(
+      this._jantekService.getEmployeeIDStatus(employeeID).subscribe(
         data => {
           // console.log(data);
           if (data["found"] > 0) {
@@ -117,15 +117,29 @@ export class LoginFormComponent implements OnInit {
     this.validLogin = true;
   }
 
+  /** Pads Employee ID status with 0's for request params */
+  padEmployeeIDStatus(): void {
+    let paddedEmployeeNumber = this.loginForm.controls.employeeID.value!;
+    while (paddedEmployeeNumber.length < 6) paddedEmployeeNumber = "0" + paddedEmployeeNumber;
+    this.loginForm.controls.employeeID.setValue(paddedEmployeeNumber);
+  }
+
   /** Checks if login form has valid login information */
   async onLogin() {
     if (this.loginForm.valid) {
+      // Submit form
       switch(this.logintype) {
         case 1: // Employee and Card Number INCOMPLETE
-          await this.compareEmployeeStatuses(this.getEmployeeIDStatus(this.loginForm.controls.employeeID.value), this.getCardNumberStatus(this.loginForm.controls.cardNumber.value));
-          this._jantekService.employeeStatus = await this.getCardNumberStatus(this.loginForm.controls.cardNumber.value);
+          this.padEmployeeIDStatus();
+          if(await this.compareEmployeeStatuses(this.getEmployeeIDStatus(this.loginForm.controls.employeeID.value), this.getCardNumberStatus(this.loginForm.controls.cardNumber.value))) {
+            this._jantekService.employeeStatus = await this.getCardNumberStatus(this.loginForm.controls.cardNumber.value);
+          }
+          else {
+            this.isInvalidLogin();
+          }
           break;
         case 2: // Employee ID Only
+          this.padEmployeeIDStatus();
           this._jantekService.employeeStatus = await this.getEmployeeIDStatus(this.loginForm.controls.employeeID.value);
           break;
         case 3: // Card Number Only

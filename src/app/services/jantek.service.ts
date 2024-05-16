@@ -10,9 +10,9 @@ import { CodeStatus, L3CodeStatus } from '../models/code-status';
 import { EmployeeStatus } from '../models/employee-status';
 
 /** LAN server janteksvr04 */
-// const APIROOT = "http://201.12.20.40/timothy_jan/webpunch";
+const APIROOT = "http://201.12.20.40/timothy_jan/webpunch/api";
 /** Internet server janteksvr00 */
-const APIROOT = "http://newdev.jantek.net/webpunch/api";
+// const APIROOT = "http://newdev.jantek.net/webpunch/api";
 const COMPANYNAME = "TIMOTHYJANPROJECT";
 
 @Injectable({
@@ -57,7 +57,7 @@ export class JantekService {
   }
 
   /** Checks if Employee ID exists */
-  getEmployeeIDStatus(employeeID: number): Observable<EmployeeStatus> {
+  getEmployeeIDStatus(employeeID: string): Observable<EmployeeStatus> {
     const options = {
       params: {
         Company: COMPANYNAME,
