@@ -8,6 +8,7 @@ import { CompanyInfo } from '../models/company-info';
 import { CodeList } from '../models/code-list';
 import { CodeStatus, L3CodeStatus } from '../models/code-status';
 import { EmployeeStatus } from '../models/employee-status';
+import { DateTimeStatus } from '../models/datetime-status';
 
 /** LAN server janteksvr04 */
 const APIROOT = "http://201.12.20.40/timothy_jan/webpunch/api";
@@ -25,8 +26,6 @@ export class JantekService {
   companyInfo: CompanyInfo;
   punchConfiguration: PunchConfig
 
-  /** -DEMO ONLY */
-
   employeeStatus: EmployeeStatus = {
     status: "",
     cardnum: 0,
@@ -40,21 +39,6 @@ export class JantekService {
     private _alertService: AlertService,
     private http: HttpClient
   ) { }
-
-  /** Https request to get punch configuration from server */
-  getPunchConfiguration(): Observable<PunchConfig> {
-    const options = {
-      params: {
-        Company: COMPANYNAME,
-      }
-    };
-    return this.http.get<PunchConfig>(`${APIROOT}/wp_getpunchcfg.asp`, options);
-  }
-
-  /** Return current Login Type */
-  getLoginType(): number {
-    return this.punchConfiguration.logintype;
-  }
 
   /** Checks if Employee ID exists */
   getEmployeeIDStatus(employeeID: string): Observable<EmployeeStatus> {
@@ -91,7 +75,7 @@ export class JantekService {
   }
 
   /** Log Off */
-  logoff() {
+  logoff(): void {
     this.isAuthenticatedChange.next(false);
     this._alertService.openSnackBar("Logoff Successful");
   }
@@ -107,14 +91,8 @@ export class JantekService {
     return this.http.get<CompanyInfo>(`${APIROOT}/wp_getinfo.asp`, options)
   }
 
-
-  /** Returns current Clock Type */
-  getClockType(): number {
-    return this.punchConfiguration.clocktype;
-  }
-
   /** Returns the DateFormat for date-time */
-  getDateFormat() {
+  getDateFormat(): number {
     return this.companyInfo.dateformat;
   }
 
@@ -152,8 +130,13 @@ export class JantekService {
   }
 
   /** Returns the TimeFormat for date-time*/
-  getTimeFormat() {
+  getTimeFormat(): number {
     return this.companyInfo.timeformat;
+  }
+
+  /** Returns the wkstart */
+  getWkStart(): number {
+    return this.companyInfo.wkstart;
   }
 
   /** Returns level 1 label */
@@ -161,14 +144,37 @@ export class JantekService {
     return this.companyInfo.lvl1label;
   }
 
+  /** Returns level 2 label */
   getLevel2Label(): string {
     return this.companyInfo.lvl2label;
   }
 
+  /** Returns level 3 label */
   getLevel3Label(): string {
     return this.companyInfo.lvl3label;
   }
 
+  /** Https request to get punch configuration from server */
+  getPunchConfiguration(): Observable<PunchConfig> {
+    const options = {
+      params: {
+        Company: COMPANYNAME,
+      }
+    };
+    return this.http.get<PunchConfig>(`${APIROOT}/wp_getpunchcfg.asp`, options);
+  }
+
+  /** Return current Login Type */
+  getLoginType(): number {
+    return this.punchConfiguration.logintype;
+  }
+
+  /** Returns current Clock Type */
+  getClockType(): number {
+    return this.punchConfiguration.clocktype;
+  }
+
+  /** Return FunctionKey Info */
   getFunctionKeyInfo(functionKeyNumber: number): FunctionKey {
     switch(functionKeyNumber) {
       case 1:
@@ -186,6 +192,17 @@ export class JantekService {
       default:
         return this.punchConfiguration.fk1;
     }
+  }
+
+  /** Get current date and time for employee */
+  getEmpDateTime(): Observable<DateTimeStatus> {
+    const options = {
+      params: {
+        Company: COMPANYNAME,
+        EmpID:this.employeeStatus.empid,
+      }
+    };
+    return this.http.get<DateTimeStatus>(`${APIROOT}/wp_getempdatetime.asp`, options);
   }
 
   /** Https request to get list of level 1 codes */
