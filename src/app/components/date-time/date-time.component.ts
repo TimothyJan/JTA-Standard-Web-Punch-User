@@ -22,14 +22,14 @@ export class DateTimeComponent implements OnInit{
       this._jantekService.companyInfo = { ...response}
       this.timeFormat = this.timeFormatDisplay(this._jantekService.getTimeFormat());
       this.dateFormat = this._jantekService.dateFormatDisplay(this._jantekService.getDateFormat());
-      this.dataFetched = true;
     });
 
     /** Get datetime and convert to datetime component*/
     this._jantekService.getEmpDateTime().subscribe(response => {
       this.convertDateTime(response.datetime);
+      this.currentDateTimeUpdate();
+      this.dataFetched = true;
     });
-    this.currentDateTimeUpdate();
   }
 
   /** Convert Jantek datetime to Javascript date */
