@@ -11,6 +11,7 @@ import { EmployeeStatus } from '../../../models/employee-status';
 })
 export class LoginFormComponent implements OnInit {
   dataFetched: boolean = false;
+  loginChecking: boolean = false;
   logintype: number = 0;
   loginForm = new FormGroup({
     employeeID: new FormControl({value:'', disabled:true}, [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)]),
@@ -126,6 +127,10 @@ export class LoginFormComponent implements OnInit {
 
   /** Checks if login form has valid login information */
   async onLogin() {
+    // Loading spinner while checking
+    this.loginChecking = true;
+
+    // Check Form
     if (this.loginForm.valid) {
       // Submit form
       switch(this.logintype) {
@@ -149,9 +154,11 @@ export class LoginFormComponent implements OnInit {
     }
     // If Valid Login enable features and reroute to punch-screen
     if (this.validLogin) {
+      this.loginChecking = false;
       this._jantekService.login();
       this.router.navigate(["punch-screen"]);
     } else {
+      this.loginChecking = false;
       this._jantekService.invalidLogin();
     }
     this.loginForm.reset();

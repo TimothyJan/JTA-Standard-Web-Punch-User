@@ -73,6 +73,10 @@
         Login
       </button>
 
+      <ng-template #loginStatusBlock>
+        <app-loading-spinner [isLoading]="loginChecking"></app-loading-spinner>
+      </ng-template>
+
       <p>Jantek Web Punch is a product of JANTEK ELECTRONICS INC.</p>
     </form>
 
