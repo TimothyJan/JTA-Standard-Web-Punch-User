@@ -334,9 +334,80 @@ export class JantekService {
     }
   }
 
+  /** Get formatted padded current date */
+  getCurrentDate(): string {
+    let currentDateTime = new Date();
+    let year = currentDateTime.getFullYear().toString();
+    let month = currentDateTime.getMonth().toString();
+    let day = currentDateTime.getDay().toString();
+
+    // Pad month and day if not double digit month
+    if(month.length<2) {
+      month = "0" + month;
+    }
+    if(day.length<2) {
+      day = "0" + day;
+    }
+
+    return year + "-" + month + "-" + day;
+  }
+
+  /** Get formatted padded current time */
+  getCurrentTime(): string {
+    let currentDateTime = new Date();
+    let hour = currentDateTime.getHours().toString();
+    let minute = currentDateTime.getMinutes().toString();
+    let second = currentDateTime.getSeconds().toString();
+
+    // Pad hour/min/sec if not double digit month
+    if(hour.length<2) {
+      hour = "0" + hour
+    }
+    if(minute.length<2) {
+      minute = "0" + minute;
+    }
+    if(second.length<2) {
+      second = "0" + second;
+    }
+
+    return hour + ":" + minute + ":" + second;
+  }
+
   /** Valid level change */
   postPunch(form: any) {
     console.log(form);
+
+    let options = {
+      params: {
+        Company: COMPANYNAME,
+        punchdata: JSON.stringify({
+          "empid": this.employeeStatus.empid,
+          "cardnum": this.employeeStatus.cardnum,
+          "punchcode": form["punchcode"],
+          "date": this.getCurrentDate(),
+          "time": this.getCurrentTime(),
+          "l1": form["l1"] || 0,
+          "l2": form["l2"] || 0,
+          "l3": form["l3"] || 0,
+          "pc": form["pc"] || 0,
+          "hour": form["hour"] || 0,
+          "amount": form["amount"] || 0,
+          "accflag": 0,
+          "account": 0,
+          "rejflag": 0,
+          "rejcount": 0
+        })
+      }
+    }
+    console.log(`${APIROOT}/wp_PostPunch.asp`, options);
+    this.http.get(`${APIROOT}/wp_PostPunch.asp`, options).subscribe(
+      response => {
+        console.log('Response from server:', response);
+      },
+      error => {
+        console.error('Error sending data:', error);
+      }
+    );
     this._alertService.openSnackBar("Punch Recorded!");
   }
 
