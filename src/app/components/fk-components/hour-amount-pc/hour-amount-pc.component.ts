@@ -2,8 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FunctionKey } from '../../../models/function-key';
 import { JantekService } from '../../../services/jantek.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { PayCodeDialogComponent } from '../pay-code-dialog/pay-code-dialog.component';
 
 @Component({
   selector: 'app-hour-amount-pc',
@@ -12,10 +10,9 @@ import { PayCodeDialogComponent } from '../pay-code-dialog/pay-code-dialog.compo
 })
 export class HourAmountPcComponent implements OnInit{
   @Input() functionKeyNumber: number = 0;
-  msg1Disabled: boolean = true;
 
   fk: FunctionKey = {
-    "fktype": 1,
+    "fktype": 0,
     "caption": "",
     "msg1": "",
     "msg2": "",
@@ -24,58 +21,62 @@ export class HourAmountPcComponent implements OnInit{
   };
 
   payCodeForm = new FormGroup({
-    msg1Input: new FormControl({value: "", disabled: true}, [Validators.required]),
-    PCInput: new FormControl(0, [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)]),
+    punchcode: new FormControl({value: "", disabled: true}, [Validators.required]),
+    hour: new FormControl({value: "", disabled: true}, [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)]),
+    amount: new FormControl({value: "", disabled: true}, [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)]),
+    pc: new FormControl(0, [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)]),
   });
 
   constructor(
-    private _jantekService: JantekService,
-    private _dialog: MatDialog
+    private _jantekService: JantekService
   ) {}
 
   ngOnInit(): void {
     this.fk = this._jantekService.getFunctionKeyInfo(this.functionKeyNumber);
-    if(this.fk["msg1"]) {
-      this.enableMsg1();
+    switch(this.fk.fktype) {
+      case 16: // Hour Entry
+        this.enableHour();
+        this.disableAmount();
+        break;
+      case 17: //Amount Entry
+        this.enableAmount();
+        this.disableHour();
+        break;
+      default:
+        console.log("Error reading FK type");
+        break;
     }
   }
 
-  /** Enable Msg 1 input and dialog */
-  enableMsg1(): void {
-    this.msg1Disabled = false;
-    this.payCodeForm.controls["msg1Input"].enable();
+  /** Enable Msg 1 input for hour */
+  enableHour(): void {
+    this.payCodeForm.controls["hour"].enable();
   }
 
-  /** Disable Msg 1 input and dialog */
-  disableMsg1():void {
-    this.msg1Disabled = true;
-    this.payCodeForm.controls["msg1Input"].disable();
+  /** Disable Msg 1 input for hour */
+  disableHour():void {
+    this.payCodeForm.controls["hour"].disable();
   }
 
-  /** Opens PayCode dialog and passes fktype and current PayCode to dialog component */
-  openPayCodeDialog(): void {
-    const dialogConfig = new MatDialogConfig();
+  /** Enable Msg 1 input for amount */
+  enableAmount(): void {
+    this.payCodeForm.controls["amount"].enable();
+  }
 
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
+  /** Disable Msg 1 input for amount */
+  disableAmount():void {
+    this.payCodeForm.controls["amount"].disable();
+  }
 
-    dialogConfig.data = {
-      fktype: this.fk.fktype,
-      currentPayCode: this.fk.PC
-    };
-
-    const dialogRef = this._dialog.open(PayCodeDialogComponent, dialogConfig);
-
-    dialogRef.afterClosed().subscribe(
-      data => {
-        this.payCodeForm.controls["PCInput"].setValue(data[0]);
-      }
-    );
+  /** Set Pay Code on form */
+  setPayCode(): void {
+    this.payCodeForm.controls["pc"].setValue(this.fk.PC);
   }
 
   /** Submits pay code update to JantekService */
   onSubmit(): void {
     if (this.payCodeForm.valid) {
+      this.setPayCode();
       this._jantekService.postPunch(this.payCodeForm.value);
     }
   }
