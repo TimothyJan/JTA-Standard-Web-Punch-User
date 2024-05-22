@@ -30,7 +30,6 @@ import { ViewTotalHoursComponent } from './components/fk-components/view-total-h
 import { BreakLunchComponent } from './components/fk-components/break-lunch/break-lunch.component';
 import { HourAmountPcComponent } from './components/fk-components/hour-amount-pc/hour-amount-pc.component';
 import { CodeDialogComponent } from './components/fk-components/code-dialog/code-dialog.component';
-import { PayCodeDialogComponent } from './components/fk-components/pay-code-dialog/pay-code-dialog.component';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 
 @NgModule({
@@ -56,7 +55,6 @@ import { LoadingSpinnerComponent } from './components/loading-spinner/loading-sp
     BreakLunchComponent,
     HourAmountPcComponent,
     CodeDialogComponent,
-    PayCodeDialogComponent,
     LoadingSpinnerComponent
   ],
   imports: [
