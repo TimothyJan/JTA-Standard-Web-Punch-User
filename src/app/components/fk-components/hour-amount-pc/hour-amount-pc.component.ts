@@ -73,6 +73,21 @@ export class HourAmountPcComponent implements OnInit{
     this.payCodeForm.controls["pc"].setValue(this.fk.PC);
   }
 
+  /** Set punchcode on form */
+  setPunchCode(): void {
+    switch(this.fk.fktype) {
+      case 16: // Hour Entry
+        this.payCodeForm.controls["punchcode"].setValue("HOUR");
+        break;
+      case 17: // Amount Entry
+        this.payCodeForm.controls["punchcode"].setValue("AMOUNT");
+        break;
+      default:
+        console.log("Issue reading fktype");
+        break;
+    }
+  }
+
   /** Submits pay code update to JantekService */
   onSubmit(): void {
     if (this.payCodeForm.valid) {
