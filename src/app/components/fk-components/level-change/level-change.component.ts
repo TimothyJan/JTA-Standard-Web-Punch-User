@@ -14,13 +14,13 @@ import { CodeDialogComponent } from '../code-dialog/code-dialog.component';
 export class LevelChangeComponent implements OnInit{
   @Input() functionKeyNumber: number = 0;
 
-  msg1Disabled: boolean = true;
-  msg2Disabled: boolean = true;
-  msg3Disabled: boolean = true;
+  l1Disabled: boolean = true;
+  l2Disabled: boolean = true;
+  l3Disabled: boolean = true;
 
-  level1Label:string = "";
-  level2Label:string = "";
-  level3Label:string = "";
+  message1:string = "";
+  message2:string = "";
+  message3:string = "";
 
   fk: FunctionKey = {
     "fktype": 1,
@@ -32,9 +32,10 @@ export class LevelChangeComponent implements OnInit{
   };
 
   levelChangeForm = new FormGroup({
-    msg1Input: new FormControl({value: "", disabled: true}, [Validators.required, Validators.pattern("^[0-9]*$"),]),
-    msg2Input: new FormControl({value: "", disabled: true}, [Validators.required, Validators.pattern("^[0-9]*$"),]),
-    msg3Input: new FormControl({value: "", disabled: true}, [Validators.required, Validators.pattern("^[0-9]*$"),]),
+    punchcode: new FormControl({value: "", disabled: true}, [Validators.required]),
+    l1: new FormControl({value: "", disabled: true}, [Validators.required, Validators.pattern("^[0-9]*$"),]),
+    l2: new FormControl({value: "", disabled: true}, [Validators.required, Validators.pattern("^[0-9]*$"),]),
+    l3: new FormControl({value: "", disabled: true}, [Validators.required, Validators.pattern("^[0-9]*$"),]),
   });
 
   constructor(
@@ -44,91 +45,142 @@ export class LevelChangeComponent implements OnInit{
 
   ngOnInit(): void {
     this.fk = this._jantekService.getFunctionKeyInfo(this.functionKeyNumber);
-    if(this.fk["msg1"]) {
-      this.enableMsg1();
+    this.enableL1L2L3();
+    this.setMessages();
+  }
+
+  /** Enable certain message entries based on fk.fktype */
+  enableL1L2L3(): void {
+    switch(this.fk.fktype) {
+      case 4: // Swipe-and-go w/ L3 change
+        this.disableL1();
+        this.disableL2();
+        this.enableL3();
+        break;
+      case 5: // L1 change
+        this.enableL1();
+        this.disableL2();
+        this.disableL3();
+        break;
+      case 6: // L2 change
+        this.disableL1();
+        this.enableL2();
+        this.disableL3();
+        break;
+      case 7: // L3 change
+        this.disableL1();
+        this.disableL2();
+        this.enableL3();
+        break;
+      case 8: // L1, L2 change
+        this.enableL1();
+        this.enableL2();
+        this.disableL3();
+        break;
+      case 9: // L1, L3 change
+        this.enableL1();
+        this.disableL2();
+        this.enableL3();
+        break;
+      case 10: // L2, L3 change
+        this.disableL1();
+        this.enableL2();
+        this.enableL3();
+        break;
+      case 11: // L1, L2, L3 change
+        this.enableL1();
+        this.enableL2();
+        this.enableL3();
+        break;
     }
-    if(this.fk["msg2"]) {
-      this.enableMsg2();
+  }
+
+  /** Set labels */
+  setMessages(): void {
+    switch(this.fk.fktype) {
+      case 4: // Swipe-and-go w/ L3 change
+        this.message1 = "";
+        this.message2 = "";
+        this.message3 = this.fk.msg1;
+        break;
+      case 5: // L1 change
+        this.message1 = this.fk.msg1;
+        this.message2 = "";
+        this.message3 = "";
+        break;
+      case 6: // L2 change
+        this.message1 = "";
+        this.message2 = this.fk.msg1;
+        this.message3 = "";
+        break;
+      case 7: // L3 change
+        this.message1 = "";
+        this.message2 = "";
+        this.message3 = this.fk.msg1;
+        break;
+      case 8: // L1, L2 change
+        this.message1 = this.fk.msg1;
+        this.message2 = this.fk.msg2;
+        this.message3 = "";
+        break;
+      case 9: // L1, L3 change
+        this.message1 = this.fk.msg1;
+        this.message2 = "";
+        this.message3 = this.fk.msg2;
+        break;
+      case 10: // L2, L3 change
+        this.message1 = "";
+        this.message2 = this.fk.msg1;
+        this.message3 = this.fk.msg2;
+        break;
+      case 11: // L1, L2, L3 change
+      this.message1 = this.fk.msg1;
+      this.message2 = this.fk.msg2;
+      this.message3 = this.fk.msg3;
+        break;
     }
-    if(this.fk["msg3"]) {
-      this.enableMsg3();
-    }
-    this.level1Label = this._jantekService.getLevel1Label();
-    this.level2Label = this._jantekService.getLevel2Label();
-    this.level3Label = this._jantekService.getLevel3Label();
   }
 
-  /** Enable Msg 1 input and dialog */
-  enableMsg1(): void {
-    this.msg1Disabled = false;
-    this.levelChangeForm.controls["msg1Input"].enable();
+  /** Enable l1 input and dialog */
+  enableL1(): void {
+    this.levelChangeForm.controls["l1"].enable();
+    this.l1Disabled = false;
   }
 
-  /** Disable Msg 1 input and dialog */
-  disableMsg1():void {
-    this.msg1Disabled = true;
-    this.levelChangeForm.controls["msg1Input"].disable();
+  /** Disable l1 input and dialog */
+  disableL1():void {
+    this.levelChangeForm.controls["l1"].disable();
+    this.l1Disabled = true;
   }
 
-  /** Enable Msg 2 input and dialog */
-  enableMsg2(): void {
-    this.msg2Disabled = false;
-    this.levelChangeForm.controls["msg2Input"].enable();
+  /** Enable l2 input and dialog */
+  enableL2(): void {
+    this.levelChangeForm.controls["l2"].enable();
+    this.l2Disabled = false;
   }
 
-  /** Disable Msg 2 input and dialog */
-  disableMsg2():void {
-    this.msg2Disabled = true;
-    this.levelChangeForm.controls["msg2Input"].disable();
+  /** Disable l2 input and dialog */
+  disableL2():void {
+    this.levelChangeForm.controls["l2"].disable();
+    this.l2Disabled = true;
   }
 
-  /** Enable Msg 3 input and dialog */
-  enableMsg3(): void {
-    this.msg3Disabled = false;
-    this.levelChangeForm.controls["msg3Input"].enable();
+  /** Enable l3 input and dialog */
+  enableL3(): void {
+    this.levelChangeForm.controls["l3"].enable();
+    this.l3Disabled = false;
   }
 
-  /** Disable Msg 3 input and dialog */
-  disableMsg3():void {
-    this.msg3Disabled = true;
-    this.levelChangeForm.controls["msg3Input"].disable();
+  /** Disable l3 input and dialog */
+  disableL3():void {
+    this.levelChangeForm.controls["l3"].disable();
+    this.l3Disabled = true;
   }
 
   /** Opens Code Dialog and passes fktype and current PayCode to dialog component.
    * After selection in dialog, selection is inputted to the formcontrol for msg1.
   */
-  openCodeMsg1Dialog(): void {
-    let levelChange:number = 0;
-    // Determine level
-    switch(this.fk.fktype) {
-      case 4:
-        levelChange = 3;
-        break;
-      case 5:
-        levelChange = 1;
-        break;
-      case 6:
-        levelChange = 2;
-        break;
-      case 7:
-        levelChange = 3;
-        break;
-      case 8:
-        levelChange = 1;
-        break;
-      case 9:
-        levelChange = 1;
-        break;
-      case 10:
-        levelChange = 2;
-        break;
-      case 11:
-        levelChange = 1;
-        break;
-      default:
-        levelChange = 0;
-    }
-
+  openCodeL1Dialog(): void {
     /** Dialog configuration */
     const dialogConfig = new MatDialogConfig();
 
@@ -137,15 +189,15 @@ export class LevelChangeComponent implements OnInit{
 
     dialogConfig.data = {
       fktype: this.fk.fktype,
-      currentCode: this.levelChangeForm.controls["msg1Input"].value,
-      levelChange: levelChange
+      currentCode: this.levelChangeForm.controls["l1"].value,
+      levelChange: 1
     };
 
     const dialogRef = this._dialog.open(CodeDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(
       data => {
-        this.levelChangeForm.controls["msg1Input"].setValue(data[0]);
+        this.levelChangeForm.controls["l1"].setValue(data[0]);
       }
     );
   }
@@ -153,26 +205,7 @@ export class LevelChangeComponent implements OnInit{
   /** Opens Code Dialog and passes fktype and current PayCode to dialog component.
    * After selection in dialog, selection is inputted to the formcontrol for msg2.
   */
-  openCodeMsg2Dialog(): void {
-    let levelChange:number = 0;
-    // Determine level
-    switch(this.fk.fktype) {
-      case 8:
-        levelChange = 2;
-        break;
-      case 9:
-        levelChange = 3;
-        break;
-      case 10:
-        levelChange = 3;
-        break;
-      case 11:
-        levelChange = 2;
-        break;
-      default:
-        levelChange = 0;
-    }
-
+  openCodeL2Dialog(): void {
     /** Dialog configuration */
     const dialogConfig = new MatDialogConfig();
 
@@ -181,15 +214,15 @@ export class LevelChangeComponent implements OnInit{
 
     dialogConfig.data = {
       fktype: this.fk.fktype,
-      currentCode: this.levelChangeForm.controls["msg2Input"].value,
-      levelChange: levelChange
+      currentCode: this.levelChangeForm.controls["l2"].value,
+      levelChange: 2
     };
 
     const dialogRef = this._dialog.open(CodeDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(
       data => {
-        this.levelChangeForm.controls["msg2Input"].setValue(data[0]);
+        this.levelChangeForm.controls["l2"].setValue(data[0]);
       }
     );
   }
@@ -197,7 +230,7 @@ export class LevelChangeComponent implements OnInit{
   /** Opens Code Dialog and passes fktype and current PayCode to dialog component.
    * After selection in dialog, selection is inputted to the formcontrol for msg3.
   */
-  openCodeMsg3Dialog(): void {
+  openCodeL3Dialog(): void {
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;
@@ -205,7 +238,7 @@ export class LevelChangeComponent implements OnInit{
 
     dialogConfig.data = {
       fktype: this.fk.fktype,
-      currentCode: this.levelChangeForm.controls["msg3Input"].value,
+      currentCode: this.levelChangeForm.controls["l3"].value,
       levelChange: 3
     };
 
@@ -213,7 +246,7 @@ export class LevelChangeComponent implements OnInit{
 
     dialogRef.afterClosed().subscribe(
       data => {
-        this.levelChangeForm.controls["msg3Input"].setValue(data[0]);
+        this.levelChangeForm.controls["l3"].setValue(data[0]);
       }
     );
   }
@@ -275,13 +308,43 @@ export class LevelChangeComponent implements OnInit{
     });
   }
 
+  /** Sets punchcode on form */
+  setPunchCode(): void {
+    switch(this.fk.fktype) {
+      case 4: // Swipe-and-go w/ L3 change
+        this.levelChangeForm.controls.punchcode.setValue("SJ");
+        break;
+      case 5: // L1 change
+        this.levelChangeForm.controls.punchcode.setValue("L1");
+        break;
+      case 6: // L2 change
+        this.levelChangeForm.controls.punchcode.setValue("L2");
+        break;
+      case 7: // L3 change
+        this.levelChangeForm.controls.punchcode.setValue("L3");
+        break;
+      case 8: // L1, L2 change
+        this.levelChangeForm.controls.punchcode.setValue("L12");
+        break;
+      case 9: // L1, L3 change
+        this.levelChangeForm.controls.punchcode.setValue("L13");
+        break;
+      case 10: // L2, L3 change
+        this.levelChangeForm.controls.punchcode.setValue("L23");
+        break;
+      case 11: // L1, L2, L3 change
+        this.levelChangeForm.controls.punchcode.setValue("L123");
+        break;
+    }
+  }
+
   /** Checks if all level codes are valid to JantekService */
   async onSubmit(): Promise<void> {
     let allLevelCodesExist = false
     if (this.levelChangeForm.valid) {
       switch(this.fk.fktype) {
         case 4: { // Swipe-and-go w/ L3 change INCOMPLETE
-          if (await this.checkL3CodeExists(this.levelChangeForm.controls.msg1Input.value)) {
+          if (await this.checkL3CodeExists(this.levelChangeForm.controls.l1.value)) {
             allLevelCodesExist = true;
           } else {
             allLevelCodesExist = false;
@@ -289,7 +352,7 @@ export class LevelChangeComponent implements OnInit{
           break;
         }
         case 5: { // L1 change
-          if (await this.checkL1CodeExists(this.levelChangeForm.controls.msg1Input.value)) {
+          if (await this.checkL1CodeExists(this.levelChangeForm.controls.l1.value)) {
             allLevelCodesExist = true;
           } else {
             allLevelCodesExist = false;
@@ -297,7 +360,7 @@ export class LevelChangeComponent implements OnInit{
           break;
         }
         case 6: { // L2 change
-          if (await this.checkL2CodeExists(this.levelChangeForm.controls.msg1Input.value)) {
+          if (await this.checkL2CodeExists(this.levelChangeForm.controls.l2.value)) {
             allLevelCodesExist = true;
           } else {
             allLevelCodesExist = false;
@@ -305,7 +368,7 @@ export class LevelChangeComponent implements OnInit{
           break;
         }
         case 7: { // L3 change
-          if (await this.checkL3CodeExists(this.levelChangeForm.controls.msg1Input.value)) {
+          if (await this.checkL3CodeExists(this.levelChangeForm.controls.l3.value)) {
             allLevelCodesExist = true;
           } else {
             allLevelCodesExist = false;
@@ -313,7 +376,7 @@ export class LevelChangeComponent implements OnInit{
           break;
         }
         case 8: { // L1, L2 change
-          if (await this.checkL1CodeExists(this.levelChangeForm.controls.msg1Input.value) && await this.checkL2CodeExists(this.levelChangeForm.controls.msg2Input.value)) {
+          if (await this.checkL1CodeExists(this.levelChangeForm.controls.l1.value) && await this.checkL2CodeExists(this.levelChangeForm.controls.l2.value)) {
             allLevelCodesExist = true;
           } else {
             allLevelCodesExist = false;
@@ -321,7 +384,7 @@ export class LevelChangeComponent implements OnInit{
           break;
         }
         case 9: { // L1, L3 change
-          if (await this.checkL1CodeExists(this.levelChangeForm.controls.msg1Input.value) && await this.checkL3CodeExists(this.levelChangeForm.controls.msg2Input.value)) {
+          if (await this.checkL1CodeExists(this.levelChangeForm.controls.l1.value) && await this.checkL3CodeExists(this.levelChangeForm.controls.l3.value)) {
             allLevelCodesExist = true;
           } else {
             allLevelCodesExist = false;
@@ -329,7 +392,7 @@ export class LevelChangeComponent implements OnInit{
           break;
         }
         case 10: { // L2, L3 change
-          if (await this.checkL2CodeExists(this.levelChangeForm.controls.msg1Input.value) && await this.checkL3CodeExists(this.levelChangeForm.controls.msg2Input.value)) {
+          if (await this.checkL2CodeExists(this.levelChangeForm.controls.l2.value) && await this.checkL3CodeExists(this.levelChangeForm.controls.l3.value)) {
             allLevelCodesExist = true;
           } else {
             allLevelCodesExist = false;
@@ -337,7 +400,7 @@ export class LevelChangeComponent implements OnInit{
           break;
         }
         case 11: { // L1, L2, L3 change
-          if (await this.checkL1CodeExists(this.levelChangeForm.controls.msg1Input.value) && await this.checkL2CodeExists(this.levelChangeForm.controls.msg2Input.value) && await this.checkL3CodeExists(this.levelChangeForm.controls.msg3Input.value)) {
+          if (await this.checkL1CodeExists(this.levelChangeForm.controls.l1.value) && await this.checkL2CodeExists(this.levelChangeForm.controls.l2.value) && await this.checkL3CodeExists(this.levelChangeForm.controls.l3.value)) {
             allLevelCodesExist = true;
           } else {
             allLevelCodesExist = false;
@@ -350,6 +413,7 @@ export class LevelChangeComponent implements OnInit{
       }
     }
     if (allLevelCodesExist) {
+      this.setPunchCode();
       this.postPunch();
     } else {
       this._jantekService.invalidLevel();
