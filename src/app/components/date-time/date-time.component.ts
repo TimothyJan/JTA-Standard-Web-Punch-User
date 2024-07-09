@@ -17,14 +17,21 @@ export class DateTimeComponent implements OnInit{
   ) {}
 
   ngOnInit(): void {
-    /** Get Company Info timeformat and dateformat */
+    this.getTimeAndDateFormat();
+    this.getEmpDateTime();
+  }
+
+  /** Gets Time and Date Format from CompanyInfo */
+  getTimeAndDateFormat(): void {
     this._jantekService.getCompanyInfo().subscribe(response => {
       this._jantekService.companyInfo = { ...response}
       this.timeFormat = this.timeFormatDisplay(this._jantekService.getTimeFormat());
       this.dateFormat = this._jantekService.dateFormatDisplay(this._jantekService.getDateFormat());
     });
+  }
 
-    /** Get datetime and convert to datetime component*/
+  /** Get Employee DateTime and convert to datetime component */
+  getEmpDateTime(): void {
     this._jantekService.getEmpDateTime().subscribe(response => {
       this.convertDateTime(response.datetime);
       this.currentDateTimeUpdate();
