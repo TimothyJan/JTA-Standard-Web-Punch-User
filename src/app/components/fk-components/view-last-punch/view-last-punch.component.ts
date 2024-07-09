@@ -11,7 +11,6 @@ export class ViewLastPunchComponent implements OnInit {
   lastPunchTime: string;
   lastPunchDate: string;
   lastPunchType: string;
-
   dataFetched: boolean = true;
 
   constructor(
@@ -19,6 +18,11 @@ export class ViewLastPunchComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.getLastPunch();
+  }
+
+  /** 2024/07/05, 08:00AM Out */
+  getLastPunch(): void {
     this._jantekService.getLastPunch().subscribe(response => {
       this.lastPunchArray = response.lastpunch.split(' ');
       this.lastPunchTime = this.lastPunchArray[1];
@@ -27,10 +31,4 @@ export class ViewLastPunchComponent implements OnInit {
       this.dataFetched = false;
     });
   }
-
-  /** 2024/07/05, 08:00AM Out */
-  // getLastPunch: void {
-
-  // }
-
 }
