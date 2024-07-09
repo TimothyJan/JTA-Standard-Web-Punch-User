@@ -1,1 +1,18 @@
-<p>view-total-hours works!</p>
+<div *ngIf="!dataFetched; else loadingBlock">
+  <mat-card>
+
+    <mat-card-header class="title-center">
+      <mat-card-title>View Last Punch</mat-card-title>
+    </mat-card-header>
+
+    <div class="totalHours">
+      <h2>{{ totalHours }} total hours</h2>
+    </div>
+
+  </mat-card>
+
+</div>
+
+<ng-template #loadingBlock>
+  <app-loading-spinner [isLoading]="dataFetched"></app-loading-spinner>
+</ng-template>
