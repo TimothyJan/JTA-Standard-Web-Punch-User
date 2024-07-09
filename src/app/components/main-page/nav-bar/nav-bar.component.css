@@ -1,5 +1,5 @@
+
 .logo img{
-  /* margin: auto; */
   padding-left: 2.5%;
   display: flex;
   justify-content:start;
@@ -10,24 +10,39 @@
 mat-toolbar {
   display: flex;
   justify-content: space-between;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  height: 64px; /* mat-toolbar height */
 }
 
 .navbar-link {
   cursor: pointer;
   margin: 0 12px;
   text-decoration: underline;
-  font-size:medium;
+  font-size: medium;
 }
 
 .sidenav-container {
   height: 100%;
+  margin-top: 64px; /* mat-toolbar height */
 }
 
 mat-sidenav {
-  width: 200px;
+  width: 240px;
+  height: calc(100% - 64px); /* mat-toolbar height */
+  margin-top: 64px; /* mat-toolbar height */
+}
+
+mat-nav-list {
+  padding: 0px;
+}
+
+mat-sidenav-content {
+  height: 100%;
 }
 
 a {
   border-bottom: 1px solid #ddd !important;
 }
-
