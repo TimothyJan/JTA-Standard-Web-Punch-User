@@ -21,7 +21,7 @@ export class ViewLastPunchComponent implements OnInit {
     this.getLastPunch();
   }
 
-  /** 2024/07/05, 08:00AM Out */
+  /** Get Last Punch */
   getLastPunch(): void {
     this._jantekService.getLastPunch().subscribe(response => {
       this.lastPunchArray = response.lastpunch.split(' ');
