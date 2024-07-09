@@ -9,6 +9,7 @@ import { CodeList } from '../models/code-list';
 import { CodeStatus, L3CodeStatus } from '../models/code-status';
 import { EmployeeStatus } from '../models/employee-status';
 import { DateTimeStatus } from '../models/datetime-status';
+import { LastPunch } from '../models/last-punch';
 
 /** LAN server janteksvr04 */
 const APIROOT = "http://201.12.20.40/timothy_jan/webpunch/api";
@@ -409,6 +410,17 @@ export class JantekService {
       }
     );
     this._alertService.openSnackBar("Punch Recorded!");
+  }
+
+  /** Https request to get last punch from server */
+  getLastPunch(): Observable<LastPunch> {
+    const options = {
+      params: {
+        Company: COMPANYNAME,
+        empid: this.employeeStatus.empid
+      }
+    };
+    return this.http.get<LastPunch>(`${APIROOT}/wp_ViewLastPunch.asp`, options);
   }
 
 }
