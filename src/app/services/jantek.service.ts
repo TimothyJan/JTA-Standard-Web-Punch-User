@@ -378,7 +378,6 @@ export class JantekService {
 
   /** Post a punch */
   postPunch(form: any) {
-    console.log(form);
     let options = {
       params: {
         Company: COMPANYNAME,
@@ -402,7 +401,7 @@ export class JantekService {
       }
     }
     console.log(`${APIROOT}/wp_PostPunch.asp`, options);
-    this.http.post(`${APIROOT}/wp_PostPunch.asp`, options).subscribe(
+    this.http.get(`${APIROOT}/wp_PostPunch.asp`, options).subscribe(
       response => {
         console.log('Response from server:', response);
       },
