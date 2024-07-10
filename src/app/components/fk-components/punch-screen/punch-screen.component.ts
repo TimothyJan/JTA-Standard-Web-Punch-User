@@ -88,7 +88,7 @@ export class PunchScreenComponent implements OnInit{
 
   /** Post Punch Swipe and Go */
   onPunchSwipeAndGo() {
-    this.setPunchCodeSJ
+    this.setPunchCodeSJ();
     if (this.punchForm.valid) {
       this._jantekService.postPunch(this.punchForm.value);
     }
