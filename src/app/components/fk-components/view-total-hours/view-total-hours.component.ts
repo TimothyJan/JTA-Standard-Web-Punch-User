@@ -22,7 +22,6 @@ export class ViewTotalHoursComponent implements OnInit{
   /** Get Total Hours */
   getTotalHours(): void {
     this._jantekService.getTotalHours().subscribe(response => {
-      console.log(response);
       this.totalHours = response.hours;
       this.dataFetched = false;
     });
