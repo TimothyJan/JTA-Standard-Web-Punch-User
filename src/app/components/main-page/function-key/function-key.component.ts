@@ -16,7 +16,11 @@ export class FunctionKeyComponent implements OnInit{
   ) {}
 
   ngOnInit(): void {
-    this.fktype = this._jantekService.getFunctionKeyInfo(this.functionKeyNumber).fktype;
+    this.getFKType();
   }
 
+  /** Get FKType from service */
+  getFKType(): void {
+    this.fktype = this._jantekService.getFunctionKeyInfo(this.functionKeyNumber).fktype;
+  }
 }

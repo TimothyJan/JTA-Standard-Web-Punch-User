@@ -23,8 +23,11 @@ export class CodeDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this._dialogRef.updateSize('50%');
+    this.levelSelection();
+  }
 
-    // Level Selection
+  /** Selects which level 1/2/3 codes to be loaded */
+  levelSelection(): void {
     switch(this.data["levelChange"]) {
       case 1:
         this.loadLevel1Codes();

@@ -32,6 +32,12 @@ export class HourAmountPcComponent implements OnInit{
   ) {}
 
   ngOnInit(): void {
+    this.selectEntryType();
+  }
+
+
+  /** Select entry type based on fktype to enable/disable formcontrols*/
+  selectEntryType(): void {
     this.fk = this._jantekService.getFunctionKeyInfo(this.functionKeyNumber);
     switch(this.fk.fktype) {
       case 16: // Hour Entry

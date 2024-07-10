@@ -13,8 +13,8 @@ import { LastPunch } from '../models/last-punch';
 import { TotalHours } from '../models/total-hours';
 
 /** LAN server janteksvr04 */
-// const APIROOT = "http://201.12.20.40/timothy_jan/webpunch/api";
-const APIROOT = "/api";
+const APIROOT = "http://201.12.20.40/timothy_jan/webpunch/api";
+// const APIROOT = "./api";
 /** Internet server janteksvr00 */
 // const APIROOT = "http://newdev.jantek.net/webpunch/api";
 const COMPANYNAME = "TIMOTHYJANPROJECT";
@@ -376,10 +376,8 @@ export class JantekService {
     return hour + ":" + minute + ":" + second;
   }
 
-  /** Valid level change */
+  /** Post a punch */
   postPunch(form: any) {
-    console.log(form);
-
     let options = {
       params: {
         Company: COMPANYNAME,
@@ -403,7 +401,7 @@ export class JantekService {
       }
     }
     console.log(`${APIROOT}/wp_PostPunch.asp`, options);
-    this.http.get(`${APIROOT}/wp_PostPunch.asp`, options).subscribe(
+    this.http.post(`${APIROOT}/wp_PostPunch.asp`, options).subscribe(
       response => {
         console.log('Response from server:', response);
       },
@@ -425,6 +423,7 @@ export class JantekService {
     return this.http.get<LastPunch>(`${APIROOT}/wp_ViewLastPunch.asp`, options);
   }
 
+  /** Https request to get total hours from server */
   getTotalHours(): Observable<TotalHours> {
     const options = {
       params: {

@@ -44,13 +44,13 @@ export class LevelChangeComponent implements OnInit{
   ) {}
 
   ngOnInit(): void {
-    this.fk = this._jantekService.getFunctionKeyInfo(this.functionKeyNumber);
     this.enableL1L2L3();
     this.setMessages();
   }
 
   /** Enable certain message entries based on fk.fktype */
   enableL1L2L3(): void {
+    this.fk = this._jantekService.getFunctionKeyInfo(this.functionKeyNumber);
     switch(this.fk.fktype) {
       case 4: // Swipe-and-go w/ L3 change
         this.disableL1();

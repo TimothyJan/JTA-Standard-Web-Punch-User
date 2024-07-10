@@ -21,15 +21,19 @@ export class PunchScreenComponent implements OnInit{
 
   ngOnInit(): void {
     this.setUsername();
-    /** Get Punch Configuration to get clocktype*/
-    this._jantekService.getPunchConfiguration().subscribe(response => {
-      this.clocktype = this.FkClockTypeDesc(response.clocktype);
-    });
+    this.setClockType();
   }
 
   /** Set username */
   setUsername(): void {
     this.username = this._jantekService.employeeStatus.firstname + " " + this._jantekService.employeeStatus.lastname;
+  }
+
+  /** Get Punch Configuration to get clocktype for punch */
+  setClockType(): void {
+    this._jantekService.getPunchConfiguration().subscribe(response => {
+      this.clocktype = this.FkClockTypeDesc(response.clocktype);
+    });
   }
 
   /** Returns clock type for the NgSwitch */
