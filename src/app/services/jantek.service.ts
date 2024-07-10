@@ -338,8 +338,7 @@ export class JantekService {
   }
 
   /** Get formatted padded current date */
-  getCurrentDate(): string {
-    let currentDateTime = new Date();
+  getCurrentDate(currentDateTime: Date): string {
     let year = currentDateTime.getFullYear().toString();
     let month = currentDateTime.getMonth().toString();
     let day = currentDateTime.getDay().toString();
@@ -356,8 +355,7 @@ export class JantekService {
   }
 
   /** Get formatted padded current time */
-  getCurrentTime(): string {
-    let currentDateTime = new Date();
+  getCurrentTime(currentDateTime: Date): string {
     let hour = currentDateTime.getHours().toString();
     let minute = currentDateTime.getMinutes().toString();
     let second = currentDateTime.getSeconds().toString();
@@ -378,6 +376,7 @@ export class JantekService {
 
   /** Post a punch */
   postPunch(form: any) {
+    let currentDateTime = new Date();
     let options = {
       params: {
         Company: COMPANYNAME,
@@ -385,8 +384,8 @@ export class JantekService {
           "empid": this.employeeStatus.empid,
           "cardnum": this.employeeStatus.cardnum,
           "punchcode": form["punchcode"],
-          "date": this.getCurrentDate(),
-          "time": this.getCurrentTime(),
+          "date": this.getCurrentDate(currentDateTime),
+          "time": this.getCurrentTime(currentDateTime),
           "l1": form["l1"] || 0,
           "l2": form["l2"] || 0,
           "l3": form["l3"] || 0,
