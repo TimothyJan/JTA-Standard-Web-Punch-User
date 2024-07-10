@@ -13,8 +13,8 @@ import { LastPunch } from '../models/last-punch';
 import { TotalHours } from '../models/total-hours';
 
 /** LAN server janteksvr04 */
-// const APIROOT = "http://201.12.20.40/timothy_jan/webpunch/api";
-const APIROOT = "./api";
+const APIROOT = "http://201.12.20.40/timothy_jan/webpunch/api";
+// const APIROOT = "./api";
 /** Internet server janteksvr00 */
 // const APIROOT = "http://newdev.jantek.net/webpunch/api";
 const COMPANYNAME = "TIMOTHYJANPROJECT";
@@ -338,10 +338,11 @@ export class JantekService {
   }
 
   /** Get formatted padded current date */
-  getCurrentDate(currentDateTime: Date): string {
+  getCurrentDate(): string {
+    let currentDateTime = new Date();
     let year = currentDateTime.getFullYear().toString();
-    let month = currentDateTime.getMonth().toString();
-    let day = currentDateTime.getDay().toString();
+    let month = (currentDateTime.getMonth()+1).toString();
+    let day = currentDateTime.getDate().toString();
 
     // Pad month and day if not double digit month
     if(month.length<2) {
@@ -355,7 +356,8 @@ export class JantekService {
   }
 
   /** Get formatted padded current time */
-  getCurrentTime(currentDateTime: Date): string {
+  getCurrentTime(): string {
+    let currentDateTime = new Date();
     let hour = currentDateTime.getHours().toString();
     let minute = currentDateTime.getMinutes().toString();
     let second = currentDateTime.getSeconds().toString();
@@ -376,7 +378,7 @@ export class JantekService {
 
   /** Post a punch */
   postPunch(form: any) {
-    let currentDateTime = new Date();
+    console.log(form);
     let options = {
       params: {
         Company: COMPANYNAME,
@@ -384,8 +386,8 @@ export class JantekService {
           "empid": this.employeeStatus.empid,
           "cardnum": this.employeeStatus.cardnum,
           "punchcode": form["punchcode"],
-          "date": this.getCurrentDate(currentDateTime),
-          "time": this.getCurrentTime(currentDateTime),
+          "date": this.getCurrentDate(),
+          "time": this.getCurrentTime(),
           "l1": form["l1"] || 0,
           "l2": form["l2"] || 0,
           "l3": form["l3"] || 0,
