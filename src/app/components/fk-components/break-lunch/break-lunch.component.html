@@ -1,1 +1,57 @@
-<p>break-lunch works!</p>
+<mat-card>
+  <mat-card-header class="title-center">
+    <mat-card-title>{{ fk.caption }}</mat-card-title>
+  </mat-card-header>
+
+  <div class="flex-container">
+    <div class="flex-item">
+      <div [ngSwitch]="fk.fktype">
+        <div *ngSwitchCase="12">
+          <div class="submit-button">
+            <button
+              mat-raised-button
+              type="submit"
+              color="primary"
+              (click)="onSubmit()">
+              Break Start
+            </button>
+          </div>
+        </div>
+        <div *ngSwitchCase="13">
+          <div class="submit-button">
+            <button
+              mat-raised-button
+              type="submit"
+              color="primary"
+              (click)="onSubmit()">
+              Break End
+            </button>
+          </div>
+        </div>
+        <div *ngSwitchCase="14">
+          <div class="submit-button">
+            <button
+              mat-raised-button
+              type="submit"
+              color="primary"
+              (click)="onSubmit()">
+              Lunch Start
+            </button>
+          </div>
+        </div>
+        <div *ngSwitchCase="15">
+          <div class="submit-button">
+            <button
+              mat-raised-button
+              type="submit"
+              color="primary"
+              (click)="onSubmit()">
+              Lunch End
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</mat-card>
