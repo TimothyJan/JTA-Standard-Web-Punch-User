@@ -11,11 +11,3 @@ mat-form-field {
   padding-bottom: 2%;
 }
 
-.submit-button {
-  display: flex;
-  justify-content: center;
-}
-
-button {
-  margin: 10px;
-}
