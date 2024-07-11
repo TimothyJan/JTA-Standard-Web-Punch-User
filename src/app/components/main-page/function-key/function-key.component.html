@@ -1,4 +1,10 @@
 <div [ngSwitch]="fktype">
+  <div *ngSwitchCase="2">
+    <app-punch-button [functionKeyNumber]="functionKeyNumber"></app-punch-button>
+  </div>
+  <div *ngSwitchCase="3">
+    <app-punch-button [functionKeyNumber]="functionKeyNumber"></app-punch-button>
+  </div>
   <div *ngSwitchCase="4">
     <app-level-change [functionKeyNumber]="functionKeyNumber"></app-level-change>
   </div>
@@ -24,16 +30,16 @@
     <app-level-change [functionKeyNumber]="functionKeyNumber"></app-level-change>
   </div>
   <div *ngSwitchCase="12">
-    <app-break-lunch [functionKeyNumber]="functionKeyNumber"></app-break-lunch>
+    <app-punch-button [functionKeyNumber]="functionKeyNumber"></app-punch-button>
   </div>
   <div *ngSwitchCase="13">
-    <app-break-lunch [functionKeyNumber]="functionKeyNumber"></app-break-lunch>
+    <app-punch-button [functionKeyNumber]="functionKeyNumber"></app-punch-button>
   </div>
   <div *ngSwitchCase="14">
-    <app-break-lunch [functionKeyNumber]="functionKeyNumber"></app-break-lunch>
+    <app-punch-button [functionKeyNumber]="functionKeyNumber"></app-punch-button>
   </div>
   <div *ngSwitchCase="15">
-    <app-break-lunch [functionKeyNumber]="functionKeyNumber"></app-break-lunch>
+    <app-punch-button [functionKeyNumber]="functionKeyNumber"></app-punch-button>
   </div>
   <div *ngSwitchCase="16">
     <app-hour-amount-pc [functionKeyNumber]="functionKeyNumber"></app-hour-amount-pc>

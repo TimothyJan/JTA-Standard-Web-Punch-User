@@ -6,6 +6,28 @@
   <div class="flex-container">
     <div class="flex-item">
       <div [ngSwitch]="fk.fktype">
+        <div *ngSwitchCase="2">
+          <div class="submit-button">
+            <button
+              mat-raised-button
+              type="submit"
+              color="primary"
+              (click)="onSubmit()">
+              Punch In
+            </button>
+          </div>
+        </div>
+        <div *ngSwitchCase="3">
+          <div class="submit-button">
+            <button
+              mat-raised-button
+              type="submit"
+              color="primary"
+              (click)="onSubmit()">
+              Punch Out
+            </button>
+          </div>
+        </div>
         <div *ngSwitchCase="12">
           <div class="submit-button">
             <button

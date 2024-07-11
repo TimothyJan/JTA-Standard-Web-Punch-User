@@ -27,10 +27,10 @@ import { DateTimeComponent } from './components/date-time/date-time.component';
 import { LevelChangeComponent } from './components/fk-components/level-change/level-change.component';
 import { ViewLastPunchComponent } from './components/fk-components/view-last-punch/view-last-punch.component';
 import { ViewTotalHoursComponent } from './components/fk-components/view-total-hours/view-total-hours.component';
-import { BreakLunchComponent } from './components/fk-components/break-lunch/break-lunch.component';
 import { HourAmountPcComponent } from './components/fk-components/hour-amount-pc/hour-amount-pc.component';
 import { CodeDialogComponent } from './components/fk-components/code-dialog/code-dialog.component';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
+import { PunchButtonComponent } from './components/fk-components/punch-button/punch-button.component';
 
 @NgModule({
   declarations: [
@@ -52,10 +52,10 @@ import { LoadingSpinnerComponent } from './components/loading-spinner/loading-sp
     LevelChangeComponent,
     ViewLastPunchComponent,
     ViewTotalHoursComponent,
-    BreakLunchComponent,
     HourAmountPcComponent,
     CodeDialogComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    PunchButtonComponent
   ],
   imports: [
     BrowserModule,

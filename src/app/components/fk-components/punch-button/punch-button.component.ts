@@ -1,14 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { JantekService } from '../../../services/jantek.service';
-import { FunctionKey } from '../../../models/function-key';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FunctionKey } from '../../../models/function-key';
+import { JantekService } from '../../../services/jantek.service';
 
 @Component({
-  selector: 'app-break-lunch',
-  templateUrl: './break-lunch.component.html',
-  styleUrl: './break-lunch.component.css'
+  selector: 'app-punch-button',
+  templateUrl: './punch-button.component.html',
+  styleUrl: './punch-button.component.css'
 })
-export class BreakLunchComponent implements OnInit{
+export class PunchButtonComponent  implements OnInit{
   @Input() functionKeyNumber: number = 0;
 
   fk: FunctionKey = {
@@ -36,6 +36,12 @@ export class BreakLunchComponent implements OnInit{
   selectFKType(): void {
     this.fk = this._jantekService.getFunctionKeyInfo(this.functionKeyNumber);
     switch(this.fk.fktype) {
+      case 2: // Punc In
+        this.payCodeForm.controls["punchcode"].setValue("IN");
+        break;
+      case 3: // Punch Out
+        this.payCodeForm.controls["punchcode"].setValue("OUT");
+        break;
       case 12: // Break Start
         this.payCodeForm.controls["punchcode"].setValue("BS");
         break;

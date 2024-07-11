@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BreakLunchComponent } from './break-lunch.component';
+import { PunchButtonComponent } from './punch-button.component';
 
-describe('BreakLunchComponent', () => {
-  let component: BreakLunchComponent;
-  let fixture: ComponentFixture<BreakLunchComponent>;
+describe('PunchButtonComponent', () => {
+  let component: PunchButtonComponent;
+  let fixture: ComponentFixture<PunchButtonComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [BreakLunchComponent]
+      declarations: [PunchButtonComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(BreakLunchComponent);
+    fixture = TestBed.createComponent(PunchButtonComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
