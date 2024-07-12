@@ -337,6 +337,28 @@ export class JantekService {
     }
   }
 
+  /** Https request to get last punch from server */
+  getLastPunch(): Observable<LastPunch> {
+    const options = {
+      params: {
+        Company: COMPANYNAME,
+        EmpID: this.employeeStatus.empid
+      }
+    };
+    return this.http.get<LastPunch>(`${APIROOT}/wp_ViewLastPunch.asp`, options);
+  }
+
+  /** Https request to get total hours from server */
+  getTotalHours(): Observable<TotalHours> {
+    const options = {
+      params: {
+        Company: COMPANYNAME,
+        EmpID: this.employeeStatus.empid
+      }
+    };
+    return this.http.get<TotalHours>(`${APIROOT}/wp_ViewTotalHour.asp`, options);
+  }
+
   /** Get formatted padded current date */
   getCurrentDate(): string {
     let currentDateTime = new Date();
@@ -378,6 +400,7 @@ export class JantekService {
 
   /** Post a punch */
   postPunch(form: any) {
+    console.log(form);
     let options = {
       params: {
         Company: COMPANYNAME,
@@ -409,29 +432,83 @@ export class JantekService {
         console.error('Error sending data:', error);
       }
     );
-    this._alertService.openSnackBar("Punch Recorded!");
+    this.snackBarMessage(form["punchcode"]);
   }
 
-  /** Https request to get last punch from server */
-  getLastPunch(): Observable<LastPunch> {
-    const options = {
-      params: {
-        Company: COMPANYNAME,
-        EmpID: this.employeeStatus.empid
+  /** SnackBar Message */
+  snackBarMessage(punchcode: string): void {
+    console.log(punchcode);
+    switch(punchcode) {
+      case "IN": { // IN
+        this._alertService.openSnackBar("Punch Recorded!");
+        break;
       }
-    };
-    return this.http.get<LastPunch>(`${APIROOT}/wp_ViewLastPunch.asp`, options);
-  }
-
-  /** Https request to get total hours from server */
-  getTotalHours(): Observable<TotalHours> {
-    const options = {
-      params: {
-        Company: COMPANYNAME,
-        EmpID: this.employeeStatus.empid
+      case "OUT": { // OUT
+        this._alertService.openSnackBar("Punch Recorded!");
+        break;
       }
-    };
-    return this.http.get<TotalHours>(`${APIROOT}/wp_ViewTotalHour.asp`, options);
+      case "SJ": { // Swipe-and-go w/ L3 change
+        this._alertService.openSnackBar("Punch and Level Change Recorded!");
+        break;
+      }
+      case "L1": { // Level Change
+        this._alertService.openSnackBar("Level Change Recorded!");
+        break;
+      }
+      case "L2": { // Level Change
+        this._alertService.openSnackBar("Level Change Recorded!");
+        break;
+      }
+      case "L3": { // Level Change
+        this._alertService.openSnackBar("Level Change Recorded!");
+        break;
+      }
+      case "L12": { // Level Change
+        this._alertService.openSnackBar("Level Change Recorded!");
+        break;
+      }
+      case "L13": { // Level Change
+        this._alertService.openSnackBar("Level Change Recorded!");
+        break;
+      }
+      case "L23": { // Level Change
+        this._alertService.openSnackBar("Level Change Recorded!");
+        break;
+      }
+      case "L123": { // Level Change
+        this._alertService.openSnackBar("Level Change Recorded!");
+        break;
+      }
+      case "BS": { // Break Start
+        this._alertService.openSnackBar("Break Start Recorded!");
+        break;
+      }
+      case "BE": { // Break End
+        this._alertService.openSnackBar("Break End Recorded!");
+        break;
+      }
+      case "LS": { // Lunch Start
+        this._alertService.openSnackBar("Lunch Start Recorded!");
+        break;
+      }
+      case "LE": { // Lunch End
+        this._alertService.openSnackBar("Lunch End Recorded!");
+        break;
+      }
+      case "HOUR": { // Hour Entry
+        this._alertService.openSnackBar("Hour Entry Recorded!");
+        break;
+      }
+      case "AMOUNT": { // Amount Entry
+        this._alertService.openSnackBar("Amount Entry Recorded!");
+        break;
+      }
+      default: {
+        console.log("Issue here");
+        this._alertService.openSnackBar("Invalid Entry");
+        break;
+      }
+    }
   }
 
 }

@@ -32,7 +32,7 @@ export class LevelChangeComponent implements OnInit{
   };
 
   levelChangeForm = new FormGroup({
-    punchcode: new FormControl({value: "", disabled: true}, [Validators.required]),
+    punchcode: new FormControl({value: "", disabled: false}, [Validators.required]),
     l1: new FormControl({value: "", disabled: true}, [Validators.required, Validators.pattern("^[0-9]*$"),]),
     l2: new FormControl({value: "", disabled: true}, [Validators.required, Validators.pattern("^[0-9]*$"),]),
     l3: new FormControl({value: "", disabled: true}, [Validators.required, Validators.pattern("^[0-9]*$"),]),
@@ -46,6 +46,7 @@ export class LevelChangeComponent implements OnInit{
   ngOnInit(): void {
     this.enableL1L2L3();
     this.setMessages();
+    this.setPunchCode();
   }
 
   /** Enable certain message entries based on fk.fktype */
@@ -335,6 +336,9 @@ export class LevelChangeComponent implements OnInit{
       case 11: // L1, L2, L3 change
         this.levelChangeForm.controls.punchcode.setValue("L123");
         break;
+      default:
+        console.log("Unable to read fk.fktype");
+        break;
     }
   }
 
@@ -343,8 +347,8 @@ export class LevelChangeComponent implements OnInit{
     let allLevelCodesExist = false
     if (this.levelChangeForm.valid) {
       switch(this.fk.fktype) {
-        case 4: { // Swipe-and-go w/ L3 change INCOMPLETE
-          if (await this.checkL3CodeExists(this.levelChangeForm.controls.l1.value)) {
+        case 4: { // Swipe-and-go w/ L3 change
+          if (await this.checkL3CodeExists(this.levelChangeForm.controls.l3.value)) {
             allLevelCodesExist = true;
           } else {
             allLevelCodesExist = false;
@@ -413,7 +417,6 @@ export class LevelChangeComponent implements OnInit{
       }
     }
     if (allLevelCodesExist) {
-      this.setPunchCode();
       this.postPunch();
     } else {
       this._jantekService.invalidLevel();
