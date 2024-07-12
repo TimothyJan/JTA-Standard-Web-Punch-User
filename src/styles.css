@@ -79,14 +79,5 @@ mat-form-field {
 }
 
 button {
-  margin: 10px;
-  height: 50px!;
-  width: 210px;
+  width: 100%;
 }
-
-/* button{
-  margin-right: 1vw;
-  background: #4285F4;
-  color: white;
-  width: 210px;
-} */
