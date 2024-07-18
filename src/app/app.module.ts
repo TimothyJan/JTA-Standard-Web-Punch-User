@@ -31,6 +31,7 @@ import { HourAmountPcComponent } from './components/fk-components/hour-amount-pc
 import { CodeDialogComponent } from './components/fk-components/code-dialog/code-dialog.component';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 import { PunchButtonComponent } from './components/fk-components/punch-button/punch-button.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { PunchButtonComponent } from './components/fk-components/punch-button/pu
     HourAmountPcComponent,
     CodeDialogComponent,
     LoadingSpinnerComponent,
-    PunchButtonComponent
+    PunchButtonComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

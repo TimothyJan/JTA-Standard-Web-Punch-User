@@ -13,8 +13,8 @@ import { LastPunch } from '../models/last-punch';
 import { TotalHours } from '../models/total-hours';
 
 /** LAN server janteksvr04 */
-const APIROOT = "http://201.12.20.40/timothy_jan/webpunch/api";
-// const APIROOT = "./api";
+// const APIROOT = "http://201.12.20.40/timothy_jan/webpunch/api";
+const APIROOT = "./api";
 /** Internet server janteksvr00 */
 // const APIROOT = "http://newdev.jantek.net/webpunch/api";
 const COMPANYNAME = "TIMOTHYJANPROJECT";
@@ -400,7 +400,6 @@ export class JantekService {
 
   /** Post a punch */
   postPunch(form: any) {
-    console.log(form);
     let options = {
       params: {
         Company: COMPANYNAME,
@@ -423,10 +422,10 @@ export class JantekService {
         })
       }
     }
-    console.log(`${APIROOT}/wp_PostPunch.asp`, options);
+    // console.log(`${APIROOT}/wp_PostPunch.asp`, options);
     this.http.get(`${APIROOT}/wp_PostPunch.asp`, options).subscribe(
       response => {
-        console.log('Response from server:', response);
+        // console.log('Response from server:', response);
       },
       error => {
         console.error('Error sending data:', error);
@@ -437,7 +436,6 @@ export class JantekService {
 
   /** SnackBar Message */
   snackBarMessage(punchcode: string): void {
-    console.log(punchcode);
     switch(punchcode) {
       case "IN": { // IN
         this._alertService.openSnackBar("Punch Recorded!");
