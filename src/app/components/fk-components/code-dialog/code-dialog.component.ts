@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CodeDesc } from '../../../models/code-desc';
 import { JantekService } from '../../../services/jantek.service';
@@ -22,8 +22,24 @@ export class CodeDialogComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this._dialogRef.updateSize('50%');
+    this.dialogResize();
     this.levelSelection();
+  }
+
+  // Resizes dialog based on window width
+  dialogResize(): void {
+    const width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    if (width > 720) {
+      this._dialogRef.updateSize('40%');
+    } else {
+      this._dialogRef.updateSize('80%');
+    }
+  }
+
+  /** HostListener to update the flag on window resize */
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    this.dialogResize();
   }
 
   /** Selects which level 1/2/3 codes to be loaded */
