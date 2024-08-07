@@ -8,7 +8,7 @@ import { JantekService } from '../../../services/jantek.service';
 })
 export class ViewTotalHoursComponent implements OnInit{
   totalHours: number;
-
+  noPunches: boolean = false;
   dataFetched: boolean = true;
 
   constructor(
@@ -22,7 +22,14 @@ export class ViewTotalHoursComponent implements OnInit{
   /** Get Total Hours */
   getTotalHours(): void {
     this._jantekService.getTotalHours().subscribe(response => {
-      this.totalHours = response.hours;
+      if (response.found == 0) {
+        // No punches for employee
+        this.noPunches = true;
+      } else {
+        this.noPunches = false;
+        this.totalHours = response.hours;
+      }
+
       this.dataFetched = false;
     });
   }

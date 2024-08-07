@@ -5,9 +5,13 @@
       <mat-card-title>View Total Hours</mat-card-title>
     </mat-card-header>
 
-    <div class="totalHours">
-      <h2>{{ totalHours }} total hours</h2>
+    <div *ngIf="noPunches; else totalHoursBlock">
+      <h2 >No punches for employee</h2>
     </div>
+    <ng-template #totalHoursBlock>
+      <h2>{{ totalHours }} total hours</h2>
+    </ng-template>
+
 
   </mat-card>
 
