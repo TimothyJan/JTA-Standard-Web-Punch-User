@@ -1,17 +1,28 @@
 <mat-toolbar color="secondary">
-    <div class = "logo">
-      <img src="assets/images/Jantek-Logo.png" alt="Jantek-Logo">
-    </div>
+  <div class = "logo">
+    <img src="assets/images/Jantek-Logo.png" alt="Jantek-Logo">
+  </div>
 
-  <button mat-icon-button (click)="toggleSidenav()">
+  <button *ngIf="!isLargeScreen()" mat-icon-button (click)="toggleSidenav()" class="burger-menu">
     <mat-icon>menu</mat-icon>
   </button>
 </mat-toolbar>
 
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #sidenav mode="over" position="end" [opened]="isSidenavOpen" (openedChange)="isSidenavOpen = $event" fixedInViewport>
+  <mat-sidenav
+    #sidenav
+    [mode]="isLargeScreen() ? 'side' : 'over'"
+    position="end"
+    [opened]="isLargeScreen() || isSidenavOpen"
+    (openedChange)="isSidenavOpen = $event">
     <mat-nav-list>
-      <a mat-list-item *ngFor="let link of navLinks" [routerLink]="link.path" (click)="toggleSidenav()">{{ link.label }}</a>
+      <a
+        mat-list-item
+        *ngFor="let link of navLinks"
+        [routerLink]="link.path"
+        (click)="toggleSidenav()">
+        {{ link.label }}
+      </a>
       <a mat-list-item (click)="logoff()">Logoff</a>
     </mat-nav-list>
   </mat-sidenav>
