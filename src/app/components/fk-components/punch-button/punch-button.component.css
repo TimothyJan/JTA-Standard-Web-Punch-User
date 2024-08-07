@@ -1,15 +1,5 @@
 .flex-container {
-  display: flex;
-  flex-flow: row wrap;
-  /* justify-content: space-around; */
-  justify-content: center;
-  column-gap: 5%;
   padding-top: 24px;
-}
-
-.flex-item {
-  /* padding: 1%; */
-  padding-left: 0%;
 }
 
 .submit-button {
@@ -19,7 +9,7 @@
 
 /* CSS */
 .button-66 {
-  background-color: #3f51b5;
+  /* background-color: #3f51b5; */
   border-radius: 4px;
   border: 0;
   box-shadow: rgba(1,60,136,.5) 0 -1px 3px 0 inset,rgba(0,44,97,.1) 0 3px 6px 0;
